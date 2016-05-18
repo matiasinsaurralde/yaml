@@ -29,7 +29,7 @@ type MapItem struct {
 // YAML value into a field or variable. It is safe to call the unmarshal
 // function parameter more than once if necessary.
 type Unmarshaler interface {
-	UnmarshalYAML(unmarshal func(interface{}) error) error
+	UnmarshalYAML(unmarshal func(map[string]interface{}) error) error
 }
 
 // The Marshaler interface may be implemented by types to customize their
@@ -76,7 +76,7 @@ type Marshaler interface {
 // See the documentation of Marshal for the format of tags and a list of
 // supported tag options.
 //
-func Unmarshal(in []byte, out interface{}) (err error) {
+func Unmarshal(in []byte, out map[string]interface{}) (err error) {
 	defer handleErr(&err)
 	d := newDecoder()
 	p := newParser(in)
