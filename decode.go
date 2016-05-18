@@ -196,7 +196,7 @@ type decoder struct {
 var (
 	mapItemType    = reflect.TypeOf(MapItem{})
 	durationType   = reflect.TypeOf(time.Duration(0))
-	defaultMapType = reflect.TypeOf(map[interface{}]interface{}{})
+	defaultMapType = reflect.TypeOf(map[string]interface{}{})
 	ifaceType      = defaultMapType.Elem()
 )
 
@@ -223,7 +223,7 @@ func (d *decoder) terror(n *node, tag string, out reflect.Value) {
 
 func (d *decoder) callUnmarshaler(n *node, u Unmarshaler) (good bool) {
 	terrlen := len(d.terrors)
-	err := u.UnmarshalYAML(func(v interface{}) (err error) {
+	err := u.UnmarshalYAML(func(v map[string]interface{}) (err error) {
 		defer handleErr(&err)
 		d.unmarshal(n, reflect.ValueOf(v))
 		if len(d.terrors) > terrlen {
